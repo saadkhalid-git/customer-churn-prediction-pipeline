@@ -1,10 +1,10 @@
-# customer-churn-pridiction
+# customer-churn-prediction
 
 <a target="_blank" href="https://cookiecutter-data-science.drivendata.org/">
     <img src="https://img.shields.io/badge/CCDS-Project%20template-328F97?logo=cookiecutter" />
 </a>
 
-Customer churn prediction pipeline
+Customer Churn Prediction Pipeline
 
 ## Project Organization
 
