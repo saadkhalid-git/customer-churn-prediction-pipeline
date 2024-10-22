@@ -15,4 +15,5 @@ tqdm
 typer
 sphinx
 mlflow
+shap
 -e .
