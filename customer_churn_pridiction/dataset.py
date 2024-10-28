@@ -2,9 +2,12 @@ from pathlib import Path
 
 import typer
 from loguru import logger
-from tqdm import tqdm
+import pandas as pd
 
 from customer_churn_pridiction.config import PROCESSED_DATA_DIR, RAW_DATA_DIR
+from sklearn.preprocessing import OneHotEncoder
+
+from scipy.stats import zscore
 
 app = typer.Typer()
 
@@ -18,12 +21,43 @@ def main(
 ):
     # ---- REPLACE THIS WITH YOUR OWN CODE ----
     logger.info("Processing dataset...")
-    for i in tqdm(range(10), total=10):
-        if i == 5:
-            logger.info("Something happened for iteration 5.")
-    logger.success("Processing dataset complete.")
+
+    df_master = pd.read_excel(RAW_DATA_DIR / "E_Commerce_Dataset.xlsx", sheet_name="E Comm")
+    df = df_master.copy()
+    df.drop(columns=["CustomerID"], inplace=True)
+    logger.info(df.describe())
+    categorical_columns = ['PreferredLoginDevice', 'PreferredPaymentMode', 'Gender', 'PreferedOrderCat', 'MaritalStatus']
+    columns_to_fill = ["Tenure", "WarehouseToHome", "HourSpendOnApp", "OrderAmountHikeFromlastYear", "CouponUsed", "OrderCount", "DaySinceLastOrder"]
+    numeric_cols = ['Churn', 'Tenure', 'CityTier', 'WarehouseToHome', 'HourSpendOnApp', 'NumberOfDeviceRegistered', 'SatisfactionScore', 'NumberOfAddress', 'Complain', 'OrderCount', 'OrderAmountHikeFromlastYear', 'CouponUsed', 'DaySinceLastOrder', 'CashbackAmount']
+
+    for column in columns_to_fill:
+        mode_value = df[column].mode()[0]
+        df[column].fillna(mode_value, inplace=True)
+
+    logger.info(df.isnull().sum())
+    z_scores = df[numeric_cols].apply(zscore)
+    outliers_mask = (abs(z_scores) > 3.0)
+
+    df_cleaned = df[~outliers_mask.any(axis=1)]
+    df_cleaned.describe()
+
+    encoder = OneHotEncoder(sparse_output=False)
+
+    encoded_array = encoder.fit_transform(df_cleaned[categorical_columns])
+
+    encoded_df = pd.DataFrame(encoded_array, columns=encoder.get_feature_names_out(categorical_columns))
+
+    df_encoded = pd.concat([df_cleaned, encoded_df], axis=1).drop(categorical_columns, axis=1)
+
+    logger.info(df_encoded.corr()['Churn'].sort_values(ascending=False))
+    logger.info("Data Correlation Metrix", df_encoded.corr())
+    df_encoded.to_csv(PROCESSED_DATA_DIR / "cleaned_data.csv", index=False)
+
+    logger.success("Processing dataset complete and saved filed.")
     # -----------------------------------------
 
 
 if __name__ == "__main__":
     app()
+
+# selected_features = ['Tenure','Complain', 'DaySinceLastOrder', 'CashbackAmount', 'SatisfactionScore']
