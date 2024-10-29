@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/saadkhalid/Documents/epita/s2/ai_methodology/customer-churn-prediction-pipeline/customer_churn_pridiction/modeling/mlruns/908499216267725475/5589cdb3383e4eeabfb1e742af80120c/artifacts
+end_time: 1730167739698
+entry_point_name: ''
+experiment_id: '908499216267725475'
+lifecycle_stage: active
+run_id: 5589cdb3383e4eeabfb1e742af80120c
+run_name: unleashed-gnu-412
+run_uuid: 5589cdb3383e4eeabfb1e742af80120c
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1730167737126
+status: 4
+tags: []
+user_id: saadkhalid

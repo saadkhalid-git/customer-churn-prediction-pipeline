@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/saadkhalid/Documents/epita/s2/ai_methodology/customer-churn-prediction-pipeline/customer_churn_pridiction/modeling/mlruns/908499216267725475/f797abe356f4468dbeef310b7f981b55/artifacts
+end_time: 1730167602436
+entry_point_name: ''
+experiment_id: '908499216267725475'
+lifecycle_stage: active
+run_id: f797abe356f4468dbeef310b7f981b55
+run_name: stately-grouse-867
+run_uuid: f797abe356f4468dbeef310b7f981b55
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1730167599558
+status: 4
+tags: []
+user_id: saadkhalid
