@@ -16,4 +16,6 @@ typer
 sphinx
 mlflow
 shap
+joblib
+xgboost
 -e .
