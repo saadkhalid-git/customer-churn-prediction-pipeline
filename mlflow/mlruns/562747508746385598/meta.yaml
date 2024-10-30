@@ -1,0 +1,6 @@
+artifact_location: file:///Users/saadkhalid/Documents/epita/s2/ai_methodology/customer-churn-prediction-pipeline/mlflow/mlruns/562747508746385598
+creation_time: 1730329884325
+experiment_id: '562747508746385598'
+last_update_time: 1730329884325
+lifecycle_stage: active
+name: customer_churn_prediction_experiment

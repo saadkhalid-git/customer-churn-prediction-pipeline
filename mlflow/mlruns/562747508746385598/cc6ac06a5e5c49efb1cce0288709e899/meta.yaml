@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/saadkhalid/Documents/epita/s2/ai_methodology/customer-churn-prediction-pipeline/mlflow/mlruns/562747508746385598/cc6ac06a5e5c49efb1cce0288709e899/artifacts
+end_time: 1730330296509
+entry_point_name: ''
+experiment_id: '562747508746385598'
+lifecycle_stage: active
+run_id: cc6ac06a5e5c49efb1cce0288709e899
+run_name: RandomForest
+run_uuid: cc6ac06a5e5c49efb1cce0288709e899
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1730330294645
+status: 3
+tags: []
+user_id: saadkhalid

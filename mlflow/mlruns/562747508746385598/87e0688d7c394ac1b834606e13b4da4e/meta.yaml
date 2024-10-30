@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/saadkhalid/Documents/epita/s2/ai_methodology/customer-churn-prediction-pipeline/mlflow/mlruns/562747508746385598/87e0688d7c394ac1b834606e13b4da4e/artifacts
+end_time: 1730330710171
+entry_point_name: ''
+experiment_id: '562747508746385598'
+lifecycle_stage: active
+run_id: 87e0688d7c394ac1b834606e13b4da4e
+run_name: XGBoost
+run_uuid: 87e0688d7c394ac1b834606e13b4da4e
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1730330707451
+status: 4
+tags: []
+user_id: saadkhalid

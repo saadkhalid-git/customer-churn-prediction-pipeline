@@ -18,6 +18,10 @@ EXTERNAL_DATA_DIR = DATA_DIR / "external"
 
 MODELS_DIR = PROJ_ROOT / "models"
 
+MLFLOW_DIR = PROJ_ROOT / "mlflow/mlruns"
+
+SHAP_PLOTS_DIR = PROJ_ROOT / "shap"
+
 REPORTS_DIR = PROJ_ROOT / "reports"
 FIGURES_DIR = REPORTS_DIR / "figures"
 

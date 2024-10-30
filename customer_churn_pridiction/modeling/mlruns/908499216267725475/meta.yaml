@@ -1,6 +1,0 @@
-artifact_location: file:///Users/saadkhalid/Documents/epita/s2/ai_methodology/customer-churn-prediction-pipeline/customer_churn_pridiction/modeling/mlruns/908499216267725475
-creation_time: 1730167578059
-experiment_id: '908499216267725475'
-last_update_time: 1730167578059
-lifecycle_stage: active
-name: customer_churn_prediction_xgboost_experiment

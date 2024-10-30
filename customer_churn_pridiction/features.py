@@ -35,14 +35,14 @@ def main(
     df_master = pd.read_csv(PROCESSED_DATA_DIR / 'train.csv')
     df = df_master.copy()
     categorical_features = df.select_dtypes(include=['object', 'category']).columns.tolist()
-    one_hot_encoder = OneHotEncoder(drop='first', sparse_output=False, handle_unknown='ignore') 
+    one_hot_encoder = OneHotEncoder(drop='first', sparse_output=False, handle_unknown='ignore')
     encoded_features = one_hot_encoder.fit_transform(df[categorical_features])
     encoded_df = pd.DataFrame(encoded_features, columns=one_hot_encoder.get_feature_names_out(categorical_features))
 
     df_encoded = pd.concat([df.drop(columns=categorical_features), encoded_df], axis=1)
     df_encoded.drop(columns=['Churn'], inplace=True)
     scaler = StandardScaler()
-    scaled_data = scaler.fit(df_encoded)
+    scaler.fit(df_encoded)
     jb.dump(scaler, PROCESSED_DATA_DIR / 'standard_scaler.joblib')
     jb.dump(one_hot_encoder, PROCESSED_DATA_DIR / 'one_hot_encoder.joblib')
 
