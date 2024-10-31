@@ -59,7 +59,6 @@ def main(
         ('LogisticRegression', LogisticRegression(max_iter=100, random_state=0))
     ]
 
-    # Loop through models
     for model_name, model in models:
         with mlflow.start_run(run_name=model_name):
             # Fit the model and log parameters
@@ -89,61 +88,70 @@ def main(
             mlflow.log_artifact(MODELS_DIR / 'standard_scaler.joblib')
             mlflow.log_artifact(MODELS_DIR / 'one_hot_encoder.joblib')
 
-            # Print results
+            # Classification report
             print(f'\nModel: {model_name}')
             print(f'Train accuracy: {train_accuracy:.4f}')
             print(f'Test accuracy: {test_accuracy:.4f}')
             print('Classification report for test data:')
             print(classification_report(Y_test, Y_test_pred))
 
-            # SHAP explanations for tree-based models only
+            # SHAP explanations for all models
             if model_name in ['XGBoost', 'RandomForest']:
                 explainer = shap.TreeExplainer(model)
-                shap_values = explainer.shap_values(standard_scaler.transform(X_test))
+            else:
+                explainer = shap.LinearExplainer(model, standard_scaler.transform(X_test), feature_perturbation="interventional")
 
-                try:
-                    # Summary plot (bar)
-                    plt.figure()
-                    shap.summary_plot(shap_values, X_test, plot_type='bar')
-                    summary_plot_path = os.path.join(SHAP_PLOTS_DIR, f'shap_summary_plot_{model_name}.png')
-                    plt.savefig(summary_plot_path)
-                    plt.close()  # Close the figure after saving
+            shap_values = explainer.shap_values(standard_scaler.transform(X_test))
 
-                    # Dependence plot
-                    plt.figure()
-                    shap.dependence_plot('Tenure', shap_values, X_test)
-                    dependence_plot_path = os.path.join(SHAP_PLOTS_DIR, f'shap_dependence_plot_tenure_{model_name}.png')
-                    plt.savefig(dependence_plot_path)
-                    plt.close()  # Close the figure after saving
+            # Visualization for SHAP explanations
+            try:
+                # Summary plot
+                plt.figure()
+                shap.summary_plot(shap_values, X_test, plot_type='bar')
+                summary_plot_path = os.path.join(SHAP_PLOTS_DIR, f'shap_summary_plot_{model_name}.png')
+                plt.savefig(summary_plot_path)
+                plt.close()
 
-                    # Waterfall plot for a single instance
-                    plt.figure()
-                    shap.waterfall_plot(shap.Explanation(values=shap_values[0], base_values=explainer.expected_value, data=X_test.iloc[0]))
-                    waterfall_plot_path = os.path.join(SHAP_PLOTS_DIR, f'shap_waterfall_plot_{model_name}.png')
-                    plt.savefig(waterfall_plot_path)
-                    plt.close()  # Close the figure after saving
+                # Beeswarm plot
+                plt.figure()
+                shap.summary_plot(shap_values, X_test, plot_type='dot')
+                beeswarm_plot_path = os.path.join(SHAP_PLOTS_DIR, f'shap_beeswarm_plot_{model_name}.png')
+                plt.savefig(beeswarm_plot_path)
+                plt.close()
 
-                    # Beeswarm plot
-                    plt.figure()
-                    shap.summary_plot(shap_values, X_test, plot_type='dot')
-                    beeswarm_plot_path = os.path.join(SHAP_PLOTS_DIR, f'shap_beeswarm_plot_{model_name}.png')
-                    plt.savefig(beeswarm_plot_path)
-                    plt.close()  # Close the figure after saving
+                # Dependence plot
+                plt.figure()
+                shap.dependence_plot('Tenure', shap_values, X_test)
+                dependence_plot_path = os.path.join(SHAP_PLOTS_DIR, f'shap_dependence_plot_tenure_{model_name}.png')
+                plt.savefig(dependence_plot_path)
+                plt.close()
 
-                    # Force plot (specific data point)
-                    force_plot_path = os.path.join(SHAP_PLOTS_DIR, f'shap_force_plot_{model_name}.html')
-                    shap.force_plot(explainer.expected_value, shap_values[0], X_test.iloc[0], show=False)
-                    plt.close()  # Close any opened figures (if applicable)
+                # Waterfall plot for a single instance
+                plt.figure()
+                shap.waterfall_plot(shap.Explanation(values=shap_values[0], base_values=explainer.expected_value, data=X_test.iloc[0]))
+                waterfall_plot_path = os.path.join(SHAP_PLOTS_DIR, f'shap_waterfall_plot_{model_name}.png')
+                plt.savefig(waterfall_plot_path)
+                plt.close()
 
-                    mlflow.log_artifact(force_plot_path)
+                # Force plot (specific data point)
+                force_plot_path = os.path.join(SHAP_PLOTS_DIR, f'shap_force_plot_{model_name}.html')
+                shap.force_plot(explainer.expected_value, shap_values[0], X_test.iloc[0], show=False)
+                plt.close()
 
-                except Exception as e:
-                    print(f"Error logging SHAP plots for {model_name}: {e}")
+                mlflow.log_artifact(force_plot_path)
+                mlflow.log_artifact(summary_plot_path)
+                mlflow.log_artifact(beeswarm_plot_path)
+                mlflow.log_artifact(dependence_plot_path)
+                mlflow.log_artifact(waterfall_plot_path)
+
+            except Exception as e:
+                print(f"Error logging SHAP plots for {model_name}: {e}")
 
             # Dump model after training
             model_dump_path = f"{model_name}_model.joblib"
-            joblib.dump(model, MODELS_DIR / model_dump_path)
-            mlflow.log_artifact(model_dump_path)
+            model_full_path = MODELS_DIR / model_dump_path
+            joblib.dump(model, model_full_path)
+            mlflow.log_artifact(model_full_path)
 
         print(f'Model: {model_name} - completed and logged all SHAP plots and model artifacts.')
 
