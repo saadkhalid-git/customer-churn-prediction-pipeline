@@ -36,7 +36,6 @@ def predict(input_data: list[dict] = Body(...)):  # Use Body(...) to require inp
         # Make prediction
         prediction = model.predict(X_scaled)
         return {"prediction": prediction.tolist()}
-    
+
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
-
