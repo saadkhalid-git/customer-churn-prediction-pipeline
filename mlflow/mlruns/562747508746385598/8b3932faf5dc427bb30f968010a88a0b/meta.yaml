@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/saadkhalid/Documents/epita/s2/ai_methodology/customer-churn-prediction-pipeline/mlflow/mlruns/562747508746385598/8b3932faf5dc427bb30f968010a88a0b/artifacts
+end_time: 1730401158061
+entry_point_name: ''
+experiment_id: '562747508746385598'
+lifecycle_stage: active
+run_id: 8b3932faf5dc427bb30f968010a88a0b
+run_name: LogisticRegression
+run_uuid: 8b3932faf5dc427bb30f968010a88a0b
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1730401156694
+status: 3
+tags: []
+user_id: saadkhalid

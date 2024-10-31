@@ -37,8 +37,8 @@ def main(
     Y_train = train_data[target]
     X_test = test_data.drop(columns=[target])
     Y_test = test_data[target]
-    standard_scaler = joblib.load(PROCESSED_DATA_DIR / 'standard_scaler.joblib')
-    one_hot_encoder = joblib.load(PROCESSED_DATA_DIR / 'one_hot_encoder.joblib')
+    standard_scaler = joblib.load(MODELS_DIR / 'standard_scaler.joblib')
+    one_hot_encoder = joblib.load(MODELS_DIR / 'one_hot_encoder.joblib')
 
     X_train_encoded = one_hot_encoder.transform(X_train.select_dtypes(include=['object']))
 
@@ -86,8 +86,8 @@ def main(
 
             # Log model and artifacts
             mlflow.sklearn.log_model(model, 'model')
-            mlflow.log_artifact(PROCESSED_DATA_DIR / 'standard_scaler.joblib')
-            mlflow.log_artifact(PROCESSED_DATA_DIR / 'one_hot_encoder.joblib')
+            mlflow.log_artifact(MODELS_DIR / 'standard_scaler.joblib')
+            mlflow.log_artifact(MODELS_DIR / 'one_hot_encoder.joblib')
 
             # Print results
             print(f'\nModel: {model_name}')
