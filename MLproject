@@ -1,0 +1,7 @@
+name: CustomerChurnPrediction
+
+conda_env: conda.yaml
+
+entry_points:
+  train:
+    command: "python customer_churn_prediction/modeling/train.py"

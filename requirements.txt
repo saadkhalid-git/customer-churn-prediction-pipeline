@@ -18,4 +18,5 @@ mlflow
 shap
 joblib
 xgboost
+fastapi
 -e .
